@@ -136,4 +136,52 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
 //@route    GET /api/products/:id
 //@public   Public
 
-export 
+export const getProductCtrl = asyncHandler(async(req, res) => {
+  const product = await Product.findById(req.params.id);
+  if(!product) {
+    throw new Error("Product not found")
+  }
+  res.json({
+    status: "Success",
+    message: "Product fetched successfully",
+    product,
+  })
+})
+
+//@desc     Update Single product
+//@route    GET /api/products/:id
+//@public   Public
+
+export const updateProductCtrl = asyncHandler(async(req, res) => {
+  const {
+    name,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+    brand,
+  } = req.body;
+
+  //update
+  const product = await Product.findByIdAndUpdate(req.params.id, {
+    name,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+    brand,
+  }, {
+    new: true,
+  })
+  res.json({
+    status: "Success",
+    message: "Product updated successfully",
+    product,
+  })
+})
