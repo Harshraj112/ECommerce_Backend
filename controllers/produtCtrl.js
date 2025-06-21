@@ -148,8 +148,8 @@ export const getProductCtrl = asyncHandler(async(req, res) => {
   })
 })
 
-//@desc     Update Single product
-//@route    GET /api/products/:id
+//@desc     Delete Single product
+//@route    DELETE /api/products/:id
 //@public   Public
 
 export const updateProductCtrl = asyncHandler(async(req, res) => {
@@ -183,5 +183,17 @@ export const updateProductCtrl = asyncHandler(async(req, res) => {
     status: "Success",
     message: "Product updated successfully",
     product,
+  })
+})
+
+//@desc     Update Single product
+//@route    GET /api/products/:id
+//@public   Public
+
+export const deleteProductCtrl = asyncHandler(async(req, res) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({
+    status: "Success",
+    message: "Product deleted successfully",
   })
 })
