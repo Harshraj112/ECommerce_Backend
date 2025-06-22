@@ -148,8 +148,8 @@ export const getProductCtrl = asyncHandler(async(req, res) => {
   })
 })
 
-//@desc     Delete Single product
-//@route    DELETE /api/products/:id
+//@desc     Update Single product
+//@route    GET /api/products/:id
 //@public   Public
 
 export const updateProductCtrl = asyncHandler(async(req, res) => {
@@ -164,7 +164,7 @@ export const updateProductCtrl = asyncHandler(async(req, res) => {
     totalQty,
     brand,
   } = req.body;
-
+  
   //update
   const product = await Product.findByIdAndUpdate(req.params.id, {
     name,
@@ -186,8 +186,8 @@ export const updateProductCtrl = asyncHandler(async(req, res) => {
   })
 })
 
-//@desc     Update Single product
-//@route    GET /api/products/:id
+//@desc     Delete Single product
+//@route    DELETE /api/products/:id
 //@public   Public
 
 export const deleteProductCtrl = asyncHandler(async(req, res) => {
