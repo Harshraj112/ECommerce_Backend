@@ -82,9 +82,9 @@ export const updateCategoryCtrl = asyncHandler(async (req, res) => {
 //@public   Public
 
 export const deleteCategoryCtrl = asyncHandler(async(req, res) => {
-  await Product.findByIdAndDelete(req.params.id);
+  await Category.findByIdAndDelete(req.params.id);
   res.json({
     status: "Success",
-    message: "Product deleted successfully",
+    message: "Category deleted successfully",
   })
 })

@@ -9,12 +9,26 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
     category,
     sizes,
     colors,
-    user,
     price,
     totalQty,
     brand,
   } = req.body;
 
+  // //Brand exists
+  // const brandExist = await Product.findOne({ name });
+  // if (productExist) {
+  //   throw new Error("Brand already exists");
+  // }
+
+  //Find the Brand
+  const brandFound = await Category.findOne({
+    name: brand.toLowerCase() 
+  });
+  if(!brandFound) {
+    throw new Error("Brand not Found, Please create brand first or check category name");
+  };
+
+    //Product exists
   const productExist = await Product.findOne({ name });
   if (productExist) {
     throw new Error("Product already exists");
@@ -45,6 +59,12 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   categoryFound.products.push(product._id);
   //resave
   await categoryFound.save();
+
+  //Push the product into brand
+  brandFound.products.push(product._id);
+  //resave
+  await brandFound.save();
+
   //Send Response
   res.status(201).json({
     status: "Success",
