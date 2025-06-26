@@ -6,18 +6,19 @@ import Brand from "../model/Brand.js";
 //@public   Private/Admin
 
 export const createBrandCtrl = asyncHandler(async (req, res) => {
-  const { name } = req.body;
+  const { Name } = req.body;
   //brand exists
-  const brandFound = await Brand.findOne({ name });
+  const brandFound = await Brand.findOne({ Name });
   if (brandFound) {
     throw new Error("Brand Found !!");
   }
 
   //Create
-  const brand = await Category.create({
-    name: name.toLowerCase(),
+  const brand = await Brand.create({
+    name: req.body.brand.toLowerCase(),
     user: req.userAuthId,
   });
+
 
   res.json({
     status: "Success",
@@ -72,7 +73,7 @@ export const updateBrandCtrl = asyncHandler(async (req, res) => {
   );
   res.json({
     status: "Success",
-    message: "Brand updated successfully",
+    message: "Category updated successfully",
     brand,
   });
 });
