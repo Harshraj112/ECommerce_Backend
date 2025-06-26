@@ -13,12 +13,6 @@ const ColourSchema = new Schema(
             ref: "User",
             required: true
         },
-        product: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Product"
-            },
-        ],
     },
     { timestamps: true }
 );

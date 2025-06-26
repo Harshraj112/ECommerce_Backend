@@ -9,6 +9,7 @@ import productRoutes from '../routes/productRoutes.js';
 import categoriesRoutes from '../routes/categoriesRoutes.js';
 import brandsRoutes from '../routes/brandRoutes.js';
 import colourRoutes from '../routes/colourRoutes.js';
+import reviewRouter from '../routes/reviewRouter.js';
 
 //DB connect
 dbConnect();
@@ -23,6 +24,7 @@ app.use("/api/v1/products/", productRoutes);
 app.use("/api/v1/categories/", categoriesRoutes);
 app.use("/api/v1/brands", brandsRoutes);
 app.use("/api/v1/colours", colourRoutes);
+app.use("/api/v1/reviews", reviewRouter)
 
 //Err middleware
 app.use(notFound);
