@@ -7,13 +7,21 @@ import Colour from "../model/colors.js";
 
 export const createColourCtrl = asyncHandler(async (req, res) => {
   const { name } = req.body;
-  //Colour exists
-  const ColourFound = await Colour.findOne({ name });
-  if (ColourFound) {
-    throw new Error("Colour Found !!");
+
+  // Validate input
+  if (!name || typeof name !== 'string') {
+    res.status(400);
+    throw new Error("Colour name is required and must be a string");
   }
 
-  //Create
+  // Check if colour exists
+  const ColourFound = await Colour.findOne({ name: name.toLowerCase() });
+  if (ColourFound) {
+    res.status(400);
+    throw new Error("Colour already exists!");
+  }
+
+  // Create new colour
   const colour = await Colour.create({
     name: name.toLowerCase(),
     user: req.userAuthId,
@@ -25,6 +33,7 @@ export const createColourCtrl = asyncHandler(async (req, res) => {
     colour,
   });
 });
+
 
 //@desc     Get all Category
 //@route    GET /api/v1/categories

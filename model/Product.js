@@ -76,6 +76,11 @@ const ProductSchema = new Schema({
     timestamps: true,        //Automatically put time and date when it created
     toJSON: {virtuals: true},
 });
+//Virtuals
+//Total rating
+ProductSchema.virtual('totalReviews').get(function() {
+    console.log(this);
+})
 
 //Compile the Schema to model
 const Product = mongoose.model('Product', ProductSchema);        //It creates a model called Product based on the productSchema.
