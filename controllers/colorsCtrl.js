@@ -1,76 +1,64 @@
 import asyncHandler from "express-async-handler";
-import Colour from "../model/colors.js";
+import Brand from "../model/Brand.js";
+import Color from "../model/Color.js";
 
-//@desc     Create New Colour
-//@route    Post /api/v1/colour
-//@public   Private/Admin
+// @desc    Create new Color
+// @route   POST /api/v1/colors
+// @access  Private/Admin
 
-export const createColourCtrl = asyncHandler(async (req, res) => {
+export const createColorCtrl = asyncHandler(async (req, res) => {
   const { name } = req.body;
-
-  // Validate input
-  if (!name || typeof name !== 'string') {
-    res.status(400);
-    throw new Error("Colour name is required and must be a string");
+  //color exists
+  const colorFound = await Color.findOne({ name });
+  if (colorFound) {
+    throw new Error("color already exists");
   }
-
-  // Check if colour exists
-  const ColourFound = await Colour.findOne({ name: name.toLowerCase() });
-  if (ColourFound) {
-    res.status(400);
-    throw new Error("Colour already exists!");
-  }
-
-  // Create new colour
-  const colour = await Colour.create({
+  //create
+  const color = await Color.create({
     name: name.toLowerCase(),
     user: req.userAuthId,
   });
 
   res.json({
-    status: "Success",
-    message: "Colour created successfully",
-    colour,
+    status: "success",
+    message: "color created successfully",
+    color,
   });
 });
 
+// @desc    Get all colors
+// @route   GET /api/colors
+// @access  Public
 
-//@desc     Get all Category
-//@route    GET /api/v1/categories
-//@public   Public
-
-export const getAllColourCtrl = asyncHandler(async (req, res) => {
-  const colours = await Colour.find();
-
+export const getAllColorsCtrl = asyncHandler(async (req, res) => {
+  const colors = await Color.find();
   res.json({
-    status: "Success",
-    message: "Colour fetched successfully",
-    colours,
+    status: "success",
+    message: "colors fetched successfully",
+    colors,
   });
 });
 
-//@desc     Get single Category
-//@route    GET /api/v1/categories/:id
-//@public   Public
-
-export const getSingleColourCtrl = asyncHandler(async (req, res) => {
-  const colour = await Colour.findById(req.params.id);
-
+// @desc    Get single color
+// @route   GET /api/colors/:id
+// @access  Public
+export const getSingleColorCtrl = asyncHandler(async (req, res) => {
+  const color = await Color.findById(req.params.id);
   res.json({
-    status: "Success",
-    message: "Colour fetched successfully",
-    colour,
+    status: "success",
+    message: "color fetched successfully",
+    color,
   });
 });
 
-//@desc     Update Category
-//@route    PUT /api/v1/categories/:id
-//@public   Public
-export const updateColourCtrl = asyncHandler(async (req, res) => {
+// @desc    Update color
+// @route   PUT /api/colors/:id
+// @access  Private/Admin
+export const updateColorCtrl = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
   //update
-  const colour = await Colour.findByIdAndUpdate(
+  const color = await Color.findByIdAndUpdate(
     req.params.id,
     {
       name,
@@ -80,20 +68,19 @@ export const updateColourCtrl = asyncHandler(async (req, res) => {
     }
   );
   res.json({
-    status: "Success",
-    message: "Colour updated successfully",
-    colour,
+    status: "success",
+    message: "color updated successfully",
+    color,
   });
 });
 
-//@desc     Delete Single product
-//@route    DELETE /api/Colour/:id
-//@public   Public
-
-export const deleteColourCtrl = asyncHandler(async(req, res) => {
-  await Colour.findByIdAndDelete(req.params.id);
+// @desc    delete color
+// @route   DELETE /api/colors/:id
+// @access  Private/Admin
+export const deleteColorCtrl = asyncHandler(async (req, res) => {
+  await Color.findByIdAndDelete(req.params.id);
   res.json({
-    status: "Success",
-    message: "Colour deleted successfully",
-  })
-})
+    status: "success",
+    message: "color deleted successfully",
+  });
+});
